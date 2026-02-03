@@ -1,0 +1,303 @@
+{
+  "nodes": {
+    "argononed": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1729566243,
+        "narHash": "sha256-DPNI0Dpk5aym3Baf5UbEe5GENDrSmmXVdriRSWE+rgk=",
+        "owner": "nvmd",
+        "repo": "argononed",
+        "rev": "16dbee54d49b66d5654d228d1061246b440ef7cf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvmd",
+        "repo": "argononed",
+        "type": "github"
+      }
+    },
+    "cartographer-klipper": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769962726,
+        "narHash": "sha256-rHRSriWinZpwJzcTcYaFSpVRklX/3KNTt52Iby8GIhs=",
+        "owner": "Cartographer3D",
+        "repo": "cartographer-klipper",
+        "rev": "479f6ab607e61f632b9d20af5002afff725fc989",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Cartographer3D",
+        "ref": "master",
+        "repo": "cartographer-klipper",
+        "type": "github"
+      }
+    },
+    "flake-compat": {
+      "locked": {
+        "lastModified": 1767039857,
+        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "katapult": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1763202626,
+        "narHash": "sha256-3b2PQfxb1jZtHM61QqHEGGBjljLfYqPEcJ95Sf3xCsg=",
+        "owner": "Arksine",
+        "repo": "katapult",
+        "rev": "b0bf421069e2aab810db43d6e15f38817d981451",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Arksine",
+        "ref": "master",
+        "repo": "katapult",
+        "type": "github"
+      }
+    },
+    "klippain-shaketune": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1768571137,
+        "narHash": "sha256-ztgLp8PUJafUBt/PdlGj5x7ER5vxw4uIfh3/3Cbl8Ps=",
+        "owner": "Frix-x",
+        "repo": "klippain-shaketune",
+        "rev": "354ee4be6db218715239f7b9411c2c37fdea23dd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Frix-x",
+        "ref": "main",
+        "repo": "klippain-shaketune",
+        "type": "github"
+      }
+    },
+    "klipper-led-effect": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769207274,
+        "narHash": "sha256-Mv+xjT43SlP1x8tJ7ksfKdd2wfN2KZ4ydJmnjCj4V1M=",
+        "owner": "julianschill",
+        "repo": "klipper-led_effect",
+        "rev": "24d26c7208c7260a528b4438c7dbf0c279968c01",
+        "type": "github"
+      },
+      "original": {
+        "owner": "julianschill",
+        "ref": "master",
+        "repo": "klipper-led_effect",
+        "type": "github"
+      }
+    },
+    "klipper-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1770078343,
+        "narHash": "sha256-mJJYKK9ed1+2KomjbOQ9O603BgluPvCUWiLMwhN6Smo=",
+        "owner": "Klipper3d",
+        "repo": "klipper",
+        "rev": "ca7d90084c9f8bdcdeba93a561c3047cbc08e080",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Klipper3d",
+        "ref": "master",
+        "repo": "klipper",
+        "type": "github"
+      }
+    },
+    "klipper-tmc-autotune": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769888669,
+        "narHash": "sha256-QbKmoqb780OC1bkQobCJlXwdWZqnF6uCkY8bv8Scuks=",
+        "owner": "andrewmcgr",
+        "repo": "klipper_tmc_autotune",
+        "rev": "f582d5f42b66df9ee1f087f2f1519ac241bbd5b1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "andrewmcgr",
+        "ref": "main",
+        "repo": "klipper_tmc_autotune",
+        "type": "github"
+      }
+    },
+    "klipperscreen": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769724996,
+        "narHash": "sha256-Cte6VcP1yzYWZU08/3dku8f2drh63YItSJ4yvEW0Y0k=",
+        "owner": "KlipperScreen",
+        "repo": "KlipperScreen",
+        "rev": "d038ca6ae445abdb35695f8afe29b7ae5004599f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "KlipperScreen",
+        "ref": "master",
+        "repo": "KlipperScreen",
+        "type": "github"
+      }
+    },
+    "nixlib": {
+      "locked": {
+        "lastModified": 1736643958,
+        "narHash": "sha256-tmpqTSWVRJVhpvfSN9KXBvKEXplrwKnSZNAoNPf/S/s=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "1418bc28a52126761c02dd3d89b2d8ca0f521181",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixos-generators": {
+      "inputs": {
+        "nixlib": "nixlib",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1769813415,
+        "narHash": "sha256-nnVmNNKBi1YiBNPhKclNYDORoHkuKipoz7EtVnXO50A=",
+        "owner": "nix-community",
+        "repo": "nixos-generators",
+        "rev": "8946737ff703382fda7623b9fab071d037e897d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixos-generators",
+        "type": "github"
+      }
+    },
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1769302137,
+        "narHash": "sha256-QEDtctEkOsbx8nlFh4yqPEOtr4tif6KTqWwJ37IM2ds=",
+        "owner": "NixOS",
+        "repo": "nixos-hardware",
+        "rev": "a351494b0e35fd7c0b7a1aae82f0afddf4907aa8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
+    "nixos-images": {
+      "inputs": {
+        "nixos-stable": [
+          "nixos-raspberrypi",
+          "nixpkgs"
+        ],
+        "nixos-unstable": [
+          "nixos-raspberrypi",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1747747741,
+        "narHash": "sha256-LUOH27unNWbGTvZFitHonraNx0JF/55h30r9WxqrznM=",
+        "owner": "nvmd",
+        "repo": "nixos-images",
+        "rev": "cbbd6db325775096680b65e2a32fb6187c09bbb4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvmd",
+        "ref": "sdimage-installer",
+        "repo": "nixos-images",
+        "type": "github"
+      }
+    },
+    "nixos-raspberrypi": {
+      "inputs": {
+        "argononed": "argononed",
+        "flake-compat": "flake-compat",
+        "nixos-images": "nixos-images",
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1769297295,
+        "narHash": "sha256-WNI4AzwrYPeKzI/maEE+pRm8y+l9+zELkmVzMzOrOfY=",
+        "owner": "nvmd",
+        "repo": "nixos-raspberrypi",
+        "rev": "251861d8e7e4806e185a8e41e09b3ad1e6e088e6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvmd",
+        "ref": "main",
+        "repo": "nixos-raspberrypi",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1769296100,
+        "narHash": "sha256-T5VGtbz2X+waw2P1dYvLa56osxj3cNZArfa5aRBVT+s=",
+        "owner": "nvmd",
+        "repo": "nixpkgs",
+        "rev": "87f37c7a374071ec0924b99b846c1a7cc44a8c6c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvmd",
+        "ref": "modules-with-keys-25.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1769789167,
+        "narHash": "sha256-kKB3bqYJU5nzYeIROI82Ef9VtTbu4uA3YydSk/Bioa8=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "62c8382960464ceb98ea593cb8321a2cf8f9e3e5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "cartographer-klipper": "cartographer-klipper",
+        "katapult": "katapult",
+        "klippain-shaketune": "klippain-shaketune",
+        "klipper-led-effect": "klipper-led-effect",
+        "klipper-src": "klipper-src",
+        "klipper-tmc-autotune": "klipper-tmc-autotune",
+        "klipperscreen": "klipperscreen",
+        "nixos-generators": "nixos-generators",
+        "nixos-hardware": "nixos-hardware",
+        "nixos-raspberrypi": "nixos-raspberrypi",
+        "nixpkgs": "nixpkgs_2"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
