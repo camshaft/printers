@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Flake Check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v26
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            accept-flake-config = true
+            extra-platforms = aarch64-linux arm-linux
+
+      - name: Setup Cachix
+        uses: cachix/cachix-action@v14
+        with:
+          name: camshaft
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          # Set to false to enable pushing to cache (requires CACHIX_AUTH_TOKEN secret)
+          skipPush: true
+
+      - name: Run flake check
+        run: nix flake check
+
+  build:
+    name: Build Configurations
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      matrix:
+        target:
+          - printer-pi-4
+          - printer-pi-5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU for binfmt
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64,arm
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v26
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            accept-flake-config = true
+            extra-platforms = aarch64-linux arm-linux
+
+      - name: Setup Cachix
+        uses: cachix/cachix-action@v14
+        with:
+          name: camshaft
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          # Set to false to enable pushing to cache (requires CACHIX_AUTH_TOKEN secret)
+          skipPush: true
+
+      - name: Build ${{ matrix.target }}
+        run: nix build .#nixosConfigurations.${{ matrix.target }}.config.system.build.toplevel --print-build-logs
