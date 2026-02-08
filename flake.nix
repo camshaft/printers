@@ -98,6 +98,7 @@
           modules = [
             {
               nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.config.allowUnfree = true;
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-4.base
                 raspberry-pi-4.display-vc4
@@ -114,6 +115,7 @@
           modules = [
             {
               nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.config.allowUnfree = true;
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-5.base
                 raspberry-pi-5.page-size-16k
@@ -131,6 +133,7 @@
           modules = [
             {
               nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.config.allowUnfree = true;
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-4.base
                 raspberry-pi-4.display-vc4
@@ -148,6 +151,7 @@
           modules = [
             {
               nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.config.allowUnfree = true;
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-5.base
                 raspberry-pi-5.page-size-16k
