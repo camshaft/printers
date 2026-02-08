@@ -27,6 +27,7 @@ jobs:
         with:
           name: nixos-raspberrypi
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          # Set to false to enable pushing to cache (requires CACHIX_AUTH_TOKEN secret)
           skipPush: true
 
       - name: Run flake check
@@ -56,6 +57,7 @@ jobs:
         with:
           name: nixos-raspberrypi
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          # Set to false to enable pushing to cache (requires CACHIX_AUTH_TOKEN secret)
           skipPush: true
 
       - name: Build ${{ matrix.target }}
