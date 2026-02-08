@@ -27,7 +27,7 @@ jobs:
       - name: Setup Cachix
         uses: cachix/cachix-action@v14
         with:
-          name: nixos-raspberrypi
+          name: camshaft
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
           # Set to false to enable pushing to cache (requires CACHIX_AUTH_TOKEN secret)
           skipPush: true
@@ -59,7 +59,7 @@ jobs:
       - name: Setup Cachix
         uses: cachix/cachix-action@v14
         with:
-          name: nixos-raspberrypi
+          name: camshaft
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
           # Set to false to enable pushing to cache (requires CACHIX_AUTH_TOKEN secret)
           skipPush: true
