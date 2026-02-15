@@ -22,3 +22,27 @@ A 350 Voron 2.4 build with the following:
 - Rapido UHF Plus
 - Nevermore V6
 - Raspberry PI 5
+- Logitech c920 HD Pro Webcam
+
+## Features
+
+### Webcam Streaming
+
+The configuration includes [camera-streamer](https://github.com/ayufan/camera-streamer) for high-performance, low-latency webcam streaming with hardware acceleration.
+
+**Configuration:**
+- **Camera**: Logitech c920 HD Pro Webcam
+- **Format**: MJPEG (hardware encoded by the camera)
+- **Resolution**: 1920x1080 @ 30 FPS
+- **Idle FPS**: 5 FPS (to reduce CPU usage when not actively monitoring)
+
+**Features:**
+- Hardware MJPEG encoding offloaded to the camera
+- Low CPU usage on the Raspberry Pi
+- Full integration with Moonraker and Mainsail
+- High framerate streaming for monitoring prints
+
+**Access:**
+- Stream URL: `http://<printer-hostname>.lan/webcam/stream`
+- Snapshot URL: `http://<printer-hostname>.lan/webcam/snapshot`
+- Mainsail automatically configures the webcam integration
