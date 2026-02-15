@@ -1,10 +1,9 @@
-{ fetchFromGitHub }:
 final: prev: {
   camera-streamer = prev.stdenv.mkDerivation rec {
     pname = "camera-streamer";
     version = "0.4.0";
 
-    src = fetchFromGitHub {
+    src = prev.fetchFromGitHub {
       owner = "ayufan";
       repo = "camera-streamer";
       rev = "v${version}";

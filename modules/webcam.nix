@@ -1,28 +1,31 @@
 { pkgs, config, ... }:
 let
-  # Configuration for the Logitech c920 webcam with h264 hardware encoding
+  # Configuration for the Logitech c920 webcam with hardware MJPEG encoding
   cameraDevice = "/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_A91B647F-video-index0";
   streamPort = 8080;
-  snapshotPort = 8081;
   
-  # camera-streamer configuration for high-performance h264 streaming
+  # camera-streamer configuration for high-performance MJPEG streaming
+  # Using MJPEG instead of H264 because H264 is marked as "rather broken" in camera-streamer docs
+  # MJPEG provides hardware encoding with lower latency and better compatibility
   cameraStreamerConfig = pkgs.writeText "camera-streamer.conf" ''
     # Use V4L2 device directly for USB webcams
-    -camera-path=${cameraDevice}
+    --camera-path=${cameraDevice}
     
-    # Use h264 hardware encoding from the c920
-    -camera-type=v4l2
-    -camera-format=H264
-    -camera-width=1920
-    -camera-height=1080
-    -camera-fps=30
+    # Use MJPEG hardware encoding from the c920
+    --camera-type=v4l2
+    --camera-format=MJPEG
+    --camera-width=1920
+    --camera-height=1080
+    --camera-fps=30
     
     # HTTP server configuration
-    -http-listen=127.0.0.1
-    -http-port=${toString streamPort}
+    --http-listen=127.0.0.1
+    --http-port=${toString streamPort}
     
-    # Snapshot configuration
-    -camera-snapshot.height=720
+    # Snapshot and video configuration for optimal quality
+    --camera-snapshot.height=1080
+    --camera-video.height=720
+    --camera-stream.height=720
   '';
 in
 {
