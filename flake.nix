@@ -50,6 +50,12 @@
       url = "github:Arksine/katapult/master";
       flake = false;
     };
+
+    # Camera streamer for webcam streaming
+    camera-streamer = {
+      url = "github:ayufan/camera-streamer/v0.4.0";
+      flake = false;
+    };
   };
 
   nixConfig = {
@@ -75,6 +81,7 @@
       klippain-shaketune,
       klipperscreen,
       katapult,
+      camera-streamer,
       ...
     }@inputs:
     let
@@ -90,7 +97,7 @@
       };
 
       # Import the camera overlay
-      cameraOverlay = import ./overlays/camera { };
+      cameraOverlay = import ./overlays/camera { inherit camera-streamer; };
     in
     {
       # NixOS configurations for Raspberry Pi 4 and 5

@@ -1,18 +1,10 @@
+{ camera-streamer }:
 final: prev: {
   camera-streamer = prev.stdenv.mkDerivation rec {
     pname = "camera-streamer";
     version = "0.4.0";
 
-    src = prev.fetchFromGitHub {
-      owner = "ayufan";
-      repo = "camera-streamer";
-      rev = "v${version}";
-      # TODO: Replace with actual hash when building
-      # Run: nix-prefetch-url --unpack https://github.com/ayufan/camera-streamer/archive/v0.4.0.tar.gz
-      # Or build once and use the hash from the error message
-      sha256 = prev.lib.fakeSha256;
-      fetchSubmodules = true;
-    };
+    src = camera-streamer;
 
     nativeBuildInputs = with prev; [
       cmake

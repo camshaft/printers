@@ -1,19 +1,18 @@
 { pkgs, config, ... }:
 let
-  # Configuration for the Logitech c920 webcam with hardware MJPEG encoding
+  # Configuration for the Logitech c920 webcam with hardware H264 encoding
   cameraDevice = "/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_A91B647F-video-index0";
   streamPort = 8080;
   
-  # camera-streamer configuration for high-performance MJPEG streaming
-  # Using MJPEG instead of H264 because H264 is marked as "rather broken" in camera-streamer docs
-  # MJPEG provides hardware encoding with lower latency and better compatibility
+  # camera-streamer configuration for high-performance H264 streaming
+  # The c920 has hardware H264 encoding which offloads processing from the Pi CPU
   cameraStreamerConfig = pkgs.writeText "camera-streamer.conf" ''
     # Use V4L2 device directly for USB webcams
     --camera-path=${cameraDevice}
     
-    # Use MJPEG hardware encoding from the c920
+    # Use H264 hardware encoding from the c920
     --camera-type=v4l2
-    --camera-format=MJPEG
+    --camera-format=H264
     --camera-width=1920
     --camera-height=1080
     --camera-fps=30
