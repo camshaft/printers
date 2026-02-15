@@ -133,14 +133,14 @@ let
     # BTT HBB - Hot-key Button Board (USB)
     hbb = {
       # USB serial path - find with: ls -l /dev/serial/by-id/
-      serial = "/dev/serial/by-id/usb-katapult_rp2040_REPLACE_ME";
+      serial = "/dev/serial/by-id/usb-Klipper_rp2040_45474E621B0C442A-if00";
     };
 
     # Chamber MCU - Raspberry Pi Pico 2 (RP2350) via USB
     # Handles: LED strip, door sensor
     chamber = {
       # USB serial path - find with: ls -l /dev/serial/by-id/
-      serial = "/dev/serial/by-id/usb-katapult_rp2350_REPLACE_ME";
+      serial = "usb-Klipper_rp2350_chamber-if00";
     };
   };
 
