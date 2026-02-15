@@ -88,6 +88,9 @@
         inherit klipperscreen;
         inherit katapult;
       };
+
+      # Import the camera overlay
+      cameraOverlay = import ./overlays/camera { };
     in
     {
       # NixOS configurations for Raspberry Pi 4 and 5
@@ -97,7 +100,7 @@
 
           modules = [
             {
-              nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.overlays = [ klipperOverlay cameraOverlay ];
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-4.base
                 raspberry-pi-4.display-vc4
@@ -113,7 +116,7 @@
 
           modules = [
             {
-              nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.overlays = [ klipperOverlay cameraOverlay ];
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-5.base
                 raspberry-pi-5.page-size-16k
@@ -130,7 +133,7 @@
 
           modules = [
             {
-              nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.overlays = [ klipperOverlay cameraOverlay ];
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-4.base
                 raspberry-pi-4.display-vc4
@@ -147,7 +150,7 @@
 
           modules = [
             {
-              nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.overlays = [ klipperOverlay cameraOverlay ];
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-5.base
                 raspberry-pi-5.page-size-16k
