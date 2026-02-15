@@ -23,6 +23,10 @@ let
     --http-port=${toString streamPort}
     
     # Snapshot and video configuration for optimal quality
+    # snapshot.height: High quality for timelapses (1080p)
+    # video.height: Balanced quality for H264 video streams (720p)
+    # stream.height: MJPEG stream bandwidth optimization (720p)
+    # Lower resolutions for video/stream reduce bandwidth and CPU usage
     --camera-snapshot.height=1080
     --camera-video.height=720
     --camera-stream.height=720
@@ -73,13 +77,15 @@ in
   };
 
   # Moonraker webcam configuration
+  # Stream and snapshot URLs are relative to the Nginx proxy location /webcam/
+  # which proxies to camera-streamer at http://127.0.0.1:8080/
   services.moonraker.settings.webcam.printer = {
     location = "printer";
     service = "camera-streamer";
     target_fps = 30;
     target_fps_idle = 5;
-    stream_url = "/webcam/stream";
-    snapshot_url = "/webcam/snapshot";
+    stream_url = "/webcam/stream";  # Proxied from camera-streamer's /stream endpoint
+    snapshot_url = "/webcam/snapshot";  # Proxied from camera-streamer's /snapshot endpoint
     flip_horizontal = false;
     flip_vertical = false;
     rotation = 0;

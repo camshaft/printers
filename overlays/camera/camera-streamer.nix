@@ -7,6 +7,9 @@ final: prev: {
       owner = "ayufan";
       repo = "camera-streamer";
       rev = "v${version}";
+      # TODO: Replace with actual hash when building
+      # Run: nix-prefetch-url --unpack https://github.com/ayufan/camera-streamer/archive/v0.4.0.tar.gz
+      # Or build once and use the hash from the error message
       sha256 = prev.lib.fakeSha256;
       fetchSubmodules = true;
     };
