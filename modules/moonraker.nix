@@ -1,8 +1,4 @@
-{
-  pkgs,
-  ...
-}:
-{
+{...}: {
   services.moonraker = {
     enable = true;
     address = "0.0.0.0";
@@ -33,10 +29,10 @@
       };
 
       # Store history about prints
-      history = { };
+      history = {};
 
       # Allow uploads from slicers
-      octoprint_compat = { };
+      octoprint_compat = {};
 
       zeroconf = {
         enable_ssdp = "True";

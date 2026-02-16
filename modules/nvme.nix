@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-{
+{pkgs, ...}: {
   #####################################################################
   #   NVMe Storage Configuration
   #
@@ -13,7 +7,7 @@
   #####################################################################
 
   # Enable NVMe kernel module
-  boot.initrd.availableKernelModules = [ "nvme" ];
+  boot.initrd.availableKernelModules = ["nvme"];
 
   hardware.raspberry-pi.config = {
     all = {
@@ -50,8 +44,8 @@
   # Set ownership after mount (nofail means drive might not be there)
   systemd.services.gcodes-permissions = {
     description = "Set gcode directory permissions";
-    after = [ "local-fs.target" ];
-    wantedBy = [ "multi-user.target" ];
+    after = ["local-fs.target"];
+    wantedBy = ["multi-user.target"];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;

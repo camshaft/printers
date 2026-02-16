@@ -33,6 +33,21 @@
         "type": "github"
       }
     },
+    "crane": {
+      "locked": {
+        "lastModified": 1771121070,
+        "narHash": "sha256-aIlv7FRXF9q70DNJPI237dEDAznSKaXmL5lfK/Id/bI=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "a2812c19f1ed2e5ed5ce2ef7109798b575c180e1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "locked": {
         "lastModified": 1767039857,
@@ -82,6 +97,29 @@
         "type": "github"
       }
     },
+    "klipper": {
+      "inputs": {
+        "crane": "crane",
+        "katapult": "katapult",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1771232892,
+        "narHash": "sha256-eAeSEVAPkgJAhMbHsFa31HqLXjH6IKt1R5cjG/EuVSE=",
+        "owner": "camshaft",
+        "repo": "klipper",
+        "rev": "6e0c06c68d6823a3751f3501cec88f08e887141b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "camshaft",
+        "repo": "klipper",
+        "type": "github"
+      }
+    },
     "klipper-led-effect": {
       "flake": false,
       "locked": {
@@ -96,23 +134,6 @@
         "owner": "julianschill",
         "ref": "master",
         "repo": "klipper-led_effect",
-        "type": "github"
-      }
-    },
-    "klipper-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1770078343,
-        "narHash": "sha256-mJJYKK9ed1+2KomjbOQ9O603BgluPvCUWiLMwhN6Smo=",
-        "owner": "Klipper3d",
-        "repo": "klipper",
-        "rev": "ca7d90084c9f8bdcdeba93a561c3047cbc08e080",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Klipper3d",
-        "ref": "master",
-        "repo": "klipper",
         "type": "github"
       }
     },
@@ -285,16 +306,36 @@
     "root": {
       "inputs": {
         "cartographer-klipper": "cartographer-klipper",
-        "katapult": "katapult",
         "klippain-shaketune": "klippain-shaketune",
+        "klipper": "klipper",
         "klipper-led-effect": "klipper-led-effect",
-        "klipper-src": "klipper-src",
         "klipper-tmc-autotune": "klipper-tmc-autotune",
         "klipperscreen": "klipperscreen",
         "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
         "nixos-raspberrypi": "nixos-raspberrypi",
         "nixpkgs": "nixpkgs_2"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "klipper",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1771211437,
+        "narHash": "sha256-lcNK438i4DGtyA+bPXXyVLHVmJjYpVKmpux9WASa3ro=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "c62195b3d6e1bb11e0c2fb2a494117d3b55d410f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
       }
     }
   },

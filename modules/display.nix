@@ -1,10 +1,8 @@
 {
   pkgs,
   lib,
-  config,
   ...
-}:
-{
+}: {
   #####################################################################
   #   HDMI Display Configuration
   #
@@ -107,7 +105,7 @@
       GTK_CSD = "0"; # Disable client-side decorations
     };
 
-    extraArguments = [ "-d" ]; # Run in fullscreen/kiosk mode without decorations
+    extraArguments = ["-d"]; # Run in fullscreen/kiosk mode without decorations
     program = "${pkgs.klipperscreen}/bin/KlipperScreen";
     user = "klipper";
   };

@@ -1,9 +1,4 @@
-{
-  pkgs,
-  config,
-  ...
-}:
-{
+{config, ...}: {
   services.mainsail = {
     enable = true;
 

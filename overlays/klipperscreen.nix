@@ -1,12 +1,7 @@
 # KlipperScreen overlay
 #
 # Touch UI for Klipper printers.
-{ klipperscreen }:
-final: prev: {
-  #####################################################################
-  #   KlipperScreen - Touch UI for Klipper
-  #####################################################################
-
+{klipperscreen}: final: prev: {
   klipperscreen = final.python3Packages.buildPythonApplication {
     pname = "KlipperScreen";
     version = "unstable";

@@ -13,10 +13,10 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    # Klipper source
-    klipper-src = {
-      url = "github:Klipper3d/klipper/master";
-      flake = false;
+    # Klipper
+    klipper = {
+      url = "github:camshaft/klipper";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Klipper plugins
@@ -44,12 +44,6 @@
       url = "github:KlipperScreen/KlipperScreen/master";
       flake = false;
     };
-
-    # Katapult bootloader for MCU firmware updates
-    katapult = {
-      url = "github:Arksine/katapult/master";
-      flake = false;
-    };
   };
 
   nixConfig = {
@@ -61,103 +55,143 @@
     ];
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      nixos-generators,
-      nixos-hardware,
-      nixos-raspberrypi,
-      klipper-src,
-      cartographer-klipper,
-      klipper-led-effect,
-      klipper-tmc-autotune,
-      klippain-shaketune,
-      klipperscreen,
-      katapult,
-      ...
-    }@inputs:
-    let
-      # Import the Klipper overlay with all plugin sources
-      klipperOverlay = import ./overlays/klipper {
-        inherit klipper-src;
-        inherit cartographer-klipper;
-        inherit klipper-led-effect;
-        inherit klipper-tmc-autotune;
-        inherit klippain-shaketune;
-        inherit klipperscreen;
-        inherit katapult;
+  outputs = {
+    self,
+    nixpkgs,
+    nixos-generators,
+    nixos-hardware,
+    nixos-raspberrypi,
+    klipper,
+    cartographer-klipper,
+    klipper-led-effect,
+    klipper-tmc-autotune,
+    klipperscreen,
+    ...
+  } @ inputs: let
+    # Klipper overlay with plugins
+    #
+    # Uses klipper.lib.mkOverlay to create an overlay that includes
+    # klipper, klipper-firmware, katapult, and all plugins.
+    klipperOverlay = klipper.lib.mkOverlay {
+      plugins = [
+        # Cartographer probe support
+        # Patch: Cartographer uses lowercase "probe" command which newer
+        # Klipper rejects. Patch it to use uppercase "PROBE".
+        {
+          name = "cartographer";
+          src = cartographer-klipper;
+          files = ["cartographer.py" "scanner.py" "idm.py"];
+          patches = [
+            {
+              file = "cartographer.py";
+              sed = ''s/register_command("probe"/register_command("PROBE"/'';
+            }
+          ];
+        }
+        # LED effects plugin
+        {
+          name = "led-effect";
+          src = klipper-led-effect;
+          files = ["src/led_effect.py"];
+        }
+        # TMC autotune plugin
+        {
+          name = "tmc-autotune";
+          src = klipper-tmc-autotune;
+          files = ["autotune_tmc.py" "motor_constants.py" "motor_database.cfg"];
+        }
+      ];
+    };
+
+    # KlipperScreen overlay (not part of the klipper flake)
+    klipperscreenOverlay = import ./overlays/klipperscreen.nix {
+      inherit klipperscreen;
+    };
+
+    # Common overlays for all configurations
+    overlays = [klipperOverlay klipperscreenOverlay];
+
+    # Common extra modules for all configurations
+    extraModules = [
+      klipper.nixosModules.host-mcu
+    ];
+  in {
+    # NixOS configurations for Raspberry Pi 4 and 5
+    nixosConfigurations = {
+      "printer-pi-4" = nixos-raspberrypi.lib.nixosSystem {
+        specialArgs = inputs;
+
+        modules = [
+          {
+            nixpkgs.overlays = overlays;
+            imports =
+              extraModules
+              ++ (with nixos-raspberrypi.nixosModules; [
+                raspberry-pi-4.base
+                raspberry-pi-4.display-vc4
+                raspberry-pi-4.bluetooth
+              ]);
+          }
+          ./configuration.nix
+        ];
       };
-    in
-    {
-      # NixOS configurations for Raspberry Pi 4 and 5
-      nixosConfigurations = {
-        "printer-pi-4" = nixos-raspberrypi.lib.nixosSystem {
-          specialArgs = inputs;
 
-          modules = [
-            {
-              nixpkgs.overlays = [ klipperOverlay ];
-              imports = with nixos-raspberrypi.nixosModules; [
-                raspberry-pi-4.base
-                raspberry-pi-4.display-vc4
-                raspberry-pi-4.bluetooth
-              ];
-            }
-            ./configuration.nix
-          ];
-        };
+      "printer-pi-5" = nixos-raspberrypi.lib.nixosSystem {
+        specialArgs = inputs;
 
-        "printer-pi-5" = nixos-raspberrypi.lib.nixosSystem {
-          specialArgs = inputs;
-
-          modules = [
-            {
-              nixpkgs.overlays = [ klipperOverlay ];
-              imports = with nixos-raspberrypi.nixosModules; [
+        modules = [
+          {
+            nixpkgs.overlays = overlays;
+            imports =
+              extraModules
+              ++ (with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-5.base
                 raspberry-pi-5.page-size-16k
                 raspberry-pi-5.display-vc4
-              ];
-            }
-            ./configuration.nix
-          ];
-        };
+              ]);
+          }
+          ./configuration.nix
+        ];
+      };
 
-        # SD card image configurations (for initial installation)
-        "printer-pi-4-image" = nixos-raspberrypi.lib.nixosSystem {
-          specialArgs = inputs;
+      # SD card image configurations (for initial installation)
+      "printer-pi-4-image" = nixos-raspberrypi.lib.nixosSystem {
+        specialArgs = inputs;
 
-          modules = [
-            {
-              nixpkgs.overlays = [ klipperOverlay ];
-              imports = with nixos-raspberrypi.nixosModules; [
+        modules = [
+          {
+            nixpkgs.overlays = overlays;
+            imports =
+              extraModules
+              ++ (with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-4.base
                 raspberry-pi-4.display-vc4
                 raspberry-pi-4.bluetooth
                 sd-image
-              ];
-            }
-            ./configuration.nix
-          ];
-        };
+              ]);
+          }
+          ./configuration.nix
+        ];
+      };
 
-        "printer-pi-5-image" = nixos-raspberrypi.lib.nixosSystem {
-          specialArgs = inputs;
+      "printer-pi-5-image" = nixos-raspberrypi.lib.nixosSystem {
+        specialArgs = inputs;
 
-          modules = [
-            {
-              nixpkgs.overlays = [ klipperOverlay ];
-              imports = with nixos-raspberrypi.nixosModules; [
+        modules = [
+          {
+            nixpkgs.overlays = overlays;
+            imports =
+              extraModules
+              ++ (with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-5.base
                 raspberry-pi-5.page-size-16k
                 raspberry-pi-5.display-vc4
                 sd-image
-              ];
-            }
-            ./configuration.nix
-          ];
-        };
+              ]);
+          }
+          ./configuration.nix
+        ];
       };
     };
+  };
 }

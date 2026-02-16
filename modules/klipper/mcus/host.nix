@@ -1,40 +1,21 @@
-{ lib ? import <nixpkgs/lib>, ... }:
-let
-  config = import ../config.nix { inherit lib; };
-  
+{...}: let
   # MCU name prefix for pins
   mcuName = "host";
   mcuChip = "Linux";
 
-  # Helper to create MCU-prefixed pins
-  mcuPin = p: "${mcuName}:${p}";
-
   #####################################################################
   #   Raspberry Pi Host Pin Definitions
-  #   
+  #
   #   GPIO pins exposed via klipper_mcu linux process
   #####################################################################
   pins = {
     # Add any host GPIO pins here if needed
     # Example: gpio = mcuPin "gpiochip0/gpio17";
   };
-
-  #####################################################################
-  #   Raspberry Pi Host MCU Firmware Configuration
-  #   
-  #   Linux process MCU for host GPIO access (no USB, runs as process)
-  #####################################################################
-  firmware = {
-    klipper = {
-      CONFIG_LOW_LEVEL_OPTIONS = "y";
-      CONFIG_MACH_LINUX = "y";
-    };
-  };
-
 in {
   #####################################################################
   #   Raspberry Pi Host MCU
-  #   
+  #
   #   Enables additional GPIO on the Pi for host-based features
   #   Uses klipper_mcu linux process for GPIO access
   #####################################################################
@@ -47,7 +28,7 @@ in {
   #####################################################################
   #   Host Temperature Sensor
   #####################################################################
-  
+
   "temperature_sensor raspberry_pi" = {
     sensor_type = "temperature_host";
     min_temp = 10;
@@ -55,9 +36,12 @@ in {
   };
 
   #####################################################################
-  #   Export pins and firmware config for use by other modules
+  #   Export pins for use by other modules
+  #
+  #   Note: Host MCU firmware and service are handled by the klipper
+  #   flake's host-mcu NixOS module (klipper.nixosModules.host-mcu).
   #####################################################################
   _meta = {
-    inherit pins firmware mcuName mcuChip;
+    inherit pins mcuName mcuChip;
   };
 }

@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{...}: {
   users.users.admin = {
     isNormalUser = true;
     extraGroups = [

@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-{
+{pkgs, ...}: {
   networking = {
     hostName = "voron-blue";
 
@@ -21,5 +20,5 @@
   };
 
   # Allow klipper user to manage network connections via NetworkManager
-  users.users.klipper.extraGroups = [ "networkmanager" ];
+  users.users.klipper.extraGroups = ["networkmanager"];
 }
