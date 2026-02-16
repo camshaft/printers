@@ -1,62 +1,45 @@
 { pkgs, config, ... }:
 let
-  # Configuration for the Logitech c920 webcam with hardware H264 encoding
+  # Configuration for the Logitech c920 webcam
   cameraDevice = "/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_A91B647F-video-index0";
   streamPort = 8080;
-  
-  # camera-streamer configuration for high-performance H264 streaming
-  # The c920 has hardware H264 encoding which offloads processing from the Pi CPU
-  cameraStreamerConfig = pkgs.writeText "camera-streamer.conf" ''
-    # Use V4L2 device directly for USB webcams
-    --camera-path=${cameraDevice}
-    
-    # Use H264 hardware encoding from the c920
-    --camera-type=v4l2
-    --camera-format=H264
-    --camera-width=1920
-    --camera-height=1080
-    --camera-fps=30
-    
-    # HTTP server configuration
-    --http-listen=127.0.0.1
-    --http-port=${toString streamPort}
-    
-    # Snapshot and video configuration for optimal quality
-    # snapshot.height: High quality for timelapses (1080p)
-    # video.height: Balanced quality for H264 video streams (720p)
-    # stream.height: MJPEG stream bandwidth optimization (720p)
-    # Lower resolutions for video/stream reduce bandwidth and CPU usage
-    --camera-snapshot.height=1080
-    --camera-video.height=720
-    --camera-stream.height=720
-  '';
 in
 {
-  # camera-streamer service for webcam
-  systemd.services.camera-streamer = {
+  # ustreamer service for webcam
+  systemd.services.ustreamer = {
     enable = true;
-    description = "Camera Streamer for Logitech c920";
+    description = "uStreamer for Logitech c920";
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
     
     serviceConfig = {
       Type = "simple";
-      User = "camera";
-      Group = "video";
-      ExecStart = "${pkgs.camera-streamer}/bin/camera-streamer @${cameraStreamerConfig}";
+      User = "root";
+      ExecStart = builtins.concatStringsSep " " [
+        "${pkgs.ustreamer}/bin/ustreamer"
+        "--device=${cameraDevice}"
+        "--host=127.0.0.1"
+        "--port=${toString streamPort}"
+        # Resolution and framerate
+        "--resolution=1280x720"
+        "--desired-fps=30"
+        # Use MJPEG from camera directly (no encoding needed)
+        "--format=MJPEG"
+        # Performance tuning
+        "--workers=2"
+        "--drop-same-frames=30"
+      ];
       Restart = "always";
       RestartSec = "5s";
     };
   };
 
-  # Create camera user
-  users.users.camera = {
-    isSystemUser = true;
-    group = "video";
-  };
-
   # Nginx proxy for the camera stream
   services.nginx.virtualHosts."${config.networking.hostName}.lan" = {
+    # ustreamer endpoints:
+    #   / - web interface
+    #   /stream - MJPEG stream
+    #   /snapshot - JPEG snapshot
     locations."/webcam/" = {
       proxyPass = "http://127.0.0.1:${toString streamPort}/";
       extraConfig = ''
@@ -69,31 +52,26 @@ in
         proxy_set_header X-Forwarded-Proto $scheme;
       '';
     };
-    
-    locations."/webcam/snapshot" = {
-      proxyPass = "http://127.0.0.1:${toString streamPort}/snapshot";
-    };
   };
 
   # Moonraker webcam configuration
-  # Stream and snapshot URLs are relative to the Nginx proxy location /webcam/
-  # which proxies to camera-streamer at http://127.0.0.1:8080/
+  # ustreamer endpoints: /stream (MJPEG), /snapshot (JPEG)
   services.moonraker.settings."webcam printer" = {
     location = "printer";
     enabled = true;
-    service = "webrtc-camerastreamer";
+    service = "mjpegstreamer-adaptive";
     target_fps = 30;
     target_fps_idle = 5;
-    stream_url = "/webcam/stream";  # Proxied from camera-streamer's /stream endpoint
-    snapshot_url = "/webcam/snapshot";  # Proxied from camera-streamer's /snapshot endpoint
+    stream_url = "/webcam/stream";
+    snapshot_url = "/webcam/snapshot";
     flip_horizontal = false;
     flip_vertical = false;
     rotation = 0;
   };
 
-  # Add camera-streamer to system packages
+  # Add tools to system packages
   environment.systemPackages = with pkgs; [
-    camera-streamer
+    ustreamer
     v4l-utils
   ];
 }
