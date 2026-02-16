@@ -56,6 +56,12 @@
       url = "github:ayufan/camera-streamer/v0.4.0";
       flake = false;
     };
+
+    # magic_enum submodule for camera-streamer - pinned to commit from .gitmodules
+    magic-enum = {
+      url = "github:Neargye/magic_enum/48054f64abcfc83f58d9aa2efbbd21604f93aca4";
+      flake = false;
+    };
   };
 
   nixConfig = {
@@ -82,6 +88,7 @@
       klipperscreen,
       katapult,
       camera-streamer,
+      magic-enum,
       ...
     }@inputs:
     let
@@ -97,7 +104,10 @@
       };
 
       # Import the camera overlay
-      cameraOverlay = import ./overlays/camera { inherit camera-streamer; };
+      cameraOverlay = import ./overlays/camera {
+        inherit camera-streamer;
+        inherit magic-enum;
+      };
     in
     {
       # NixOS configurations for Raspberry Pi 4 and 5

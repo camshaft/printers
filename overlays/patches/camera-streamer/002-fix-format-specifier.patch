@@ -1,0 +1,16 @@
+Fix format specifier for size_t on 64-bit platforms
+
+The buf->used field is of type size_t, which requires %zu format
+specifier instead of %u on 64-bit platforms like aarch64.
+
+--- a/output/http_jpeg.c
++++ b/output/http_jpeg.c
+@@ -20,7 +20,7 @@ static const char *const STREAM_HEADER = "HTTP/1.0 200 OK\r\n"
+                                          "Content-Type: multipart/x-mixed-replace;boundary=" PART_BOUNDARY "\r\n"
+                                          "\r\n"
+                                          "--" PART_BOUNDARY "\r\n";
+-static const char *const STREAM_PART = "Content-Type: " CONTENT_TYPE "\r\n" CONTENT_LENGTH ": %u\r\n\r\n";
++static const char *const STREAM_PART = "Content-Type: " CONTENT_TYPE "\r\n" CONTENT_LENGTH ": %zu\r\n\r\n";
+ static const char *const STREAM_BOUNDARY = "\r\n"
+                                            "--" PART_BOUNDARY "\r\n";
+ 

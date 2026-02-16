@@ -78,9 +78,10 @@ in
   # Moonraker webcam configuration
   # Stream and snapshot URLs are relative to the Nginx proxy location /webcam/
   # which proxies to camera-streamer at http://127.0.0.1:8080/
-  services.moonraker.settings.webcam.printer = {
+  services.moonraker.settings."webcam printer" = {
     location = "printer";
-    service = "camera-streamer";
+    enabled = true;
+    service = "webrtc-camerastreamer";
     target_fps = 30;
     target_fps_idle = 5;
     stream_url = "/webcam/stream";  # Proxied from camera-streamer's /stream endpoint
