@@ -16,6 +16,23 @@
         "type": "github"
       }
     },
+    "camera-streamer": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1763833130,
+        "narHash": "sha256-hsPChmpeXtPuDh9rFVJ5pZvI89SJqkQaQby/IqXKC/w=",
+        "owner": "ayufan",
+        "repo": "camera-streamer",
+        "rev": "45a3b1f766eafeebe1f8393aba59f0082c17983e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ayufan",
+        "ref": "v0.4.0",
+        "repo": "camera-streamer",
+        "type": "github"
+      }
+    },
     "cartographer-klipper": {
       "flake": false,
       "locked": {
@@ -147,6 +164,23 @@
         "owner": "KlipperScreen",
         "ref": "master",
         "repo": "KlipperScreen",
+        "type": "github"
+      }
+    },
+    "magic-enum": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1682525768,
+        "narHash": "sha256-6fenc4NDYt+PRrva02+g1cejZxUBUbEOjBf4mquKxBw=",
+        "owner": "Neargye",
+        "repo": "magic_enum",
+        "rev": "48054f64abcfc83f58d9aa2efbbd21604f93aca4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Neargye",
+        "repo": "magic_enum",
+        "rev": "48054f64abcfc83f58d9aa2efbbd21604f93aca4",
         "type": "github"
       }
     },
@@ -284,6 +318,7 @@
     },
     "root": {
       "inputs": {
+        "camera-streamer": "camera-streamer",
         "cartographer-klipper": "cartographer-klipper",
         "katapult": "katapult",
         "klippain-shaketune": "klippain-shaketune",
@@ -291,6 +326,7 @@
         "klipper-src": "klipper-src",
         "klipper-tmc-autotune": "klipper-tmc-autotune",
         "klipperscreen": "klipperscreen",
+        "magic-enum": "magic-enum",
         "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
         "nixos-raspberrypi": "nixos-raspberrypi",

@@ -1,0 +1,71 @@
+--- a/Makefile
++++ b/Makefile
+@@ -6,7 +6,8 @@
+ GIT_VERSION ?= $(shell git describe --tags)
+ GIT_REVISION ?= $(shell git rev-parse --short HEAD)
+ 
+-CFLAGS := -Werror -Wall -g -I$(CURDIR) -D_GNU_SOURCE
++# Disable -Werror for compatibility with newer GCC versions
++CFLAGS := -Wall -g -I$(CURDIR) -D_GNU_SOURCE
+ LDLIBS := -lpthread -lstdc++
+ 
+ # Print #warnings
+@@ -30,8 +31,10 @@
+ USE_HW_H264 ?= 1
+ USE_FFMPEG ?= $(shell pkg-config libavutil libavformat libavcodec && echo 1)
+ USE_LIBCAMERA ?= $(shell pkg-config libcamera && echo 1)
+-USE_RTSP ?= $(shell pkg-config live555 && echo 1)
+-USE_LIBDATACHANNEL ?= $(shell [ -e $(LIBDATACHANNEL_PATH)/CMakeLists.txt ] && echo 1)
++# System live555/libdatachannel do not have pkg-config, so default to 0
++# Pass USE_RTSP=1 or USE_LIBDATACHANNEL=1 explicitly when these are available
++USE_RTSP ?= 0
++USE_LIBDATACHANNEL ?= 0
+ 
+ ifeq (1,$(DEBUG))
+ CFLAGS += -g
+@@ -52,19 +55,15 @@
+ endif
+ 
+ ifeq (1,$(USE_RTSP))
+-CFLAGS += -DUSE_RTSP $(shell pkg-config --cflags live555)
+-LDLIBS += $(shell pkg-config --libs live555)
++CFLAGS += -DUSE_RTSP
++# live555 libraries - includes provided via NIX_CFLAGS_COMPILE
++LDLIBS += -lliveMedia -lgroupsock -lBasicUsageEnvironment -lUsageEnvironment
+ endif
+ 
+ ifeq (1,$(USE_LIBDATACHANNEL))
+ CFLAGS += -DUSE_LIBDATACHANNEL
+-CFLAGS += -I$(LIBDATACHANNEL_PATH)/include
+-CFLAGS += -I$(LIBDATACHANNEL_PATH)/deps/json/include
+-LDLIBS += -L$(LIBDATACHANNEL_PATH)/build -ldatachannel-static
+-LDLIBS += -L$(LIBDATACHANNEL_PATH)/build/deps/usrsctp/usrsctplib -lusrsctp
+-LDLIBS += -L$(LIBDATACHANNEL_PATH)/build/deps/libsrtp -lsrtp2
+-LDLIBS += -L$(LIBDATACHANNEL_PATH)/build/deps/libjuice -ljuice-static
+-LDLIBS += -lcrypto -lssl
++# System libdatachannel - includes/libs provided via NIX_CFLAGS_COMPILE/NIX_LDFLAGS
++LDLIBS += -ldatachannel -lcrypto -lssl
+ endif
+ 
+ HTML_SRC = $(addsuffix .c,$(HTML))
+@@ -80,9 +79,6 @@
+ 
+ .SUFFIXES:
+ 
+-ifeq (1,$(USE_LIBDATACHANNEL))
+-camera-streamer: $(LIBDATACHANNEL_PATH)/build/libdatachannel-static.a
+-endif
+ 
+ camera-streamer: $(filter-out cmd/%, $(TARGET_OBJS)) $(filter cmd/camera-streamer/%, $(TARGET_OBJS))
+ 	$(CCACHE) $(CXX) $(CFLAGS) -o $@ $^ $(LDLIBS)
+@@ -118,10 +114,3 @@
+ 	xxd -i $< > $@.tmp
+ 	mv $@.tmp $@
+ 
+-$(LIBDATACHANNEL_VERSION):
+-
+-$(LIBDATACHANNEL_PATH)/build/libdatachannel-static.a: $(LIBDATACHANNEL_PATH) $(LIBDATACHANNEL_VERSION)
+-	git submodule update --init --recursive $(LIBDATACHANNEL_PATH)
+-	[ -e $</build/Makefile ] || cmake -S $< -B $</build
+-	$(MAKE) -C $</build datachannel-static
+-	touch $(LIBDATACHANNEL_VERSION) $@

@@ -50,6 +50,18 @@
       url = "github:Arksine/katapult/master";
       flake = false;
     };
+
+    # Camera streamer for webcam streaming
+    camera-streamer = {
+      url = "github:ayufan/camera-streamer/v0.4.0";
+      flake = false;
+    };
+
+    # magic_enum submodule for camera-streamer - pinned to commit from .gitmodules
+    magic-enum = {
+      url = "github:Neargye/magic_enum/48054f64abcfc83f58d9aa2efbbd21604f93aca4";
+      flake = false;
+    };
   };
 
   nixConfig = {
@@ -75,6 +87,8 @@
       klippain-shaketune,
       klipperscreen,
       katapult,
+      camera-streamer,
+      magic-enum,
       ...
     }@inputs:
     let
@@ -88,6 +102,12 @@
         inherit klipperscreen;
         inherit katapult;
       };
+
+      # Import the camera overlay
+      cameraOverlay = import ./overlays/camera {
+        inherit camera-streamer;
+        inherit magic-enum;
+      };
     in
     {
       # NixOS configurations for Raspberry Pi 4 and 5
@@ -97,7 +117,7 @@
 
           modules = [
             {
-              nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.overlays = [ klipperOverlay cameraOverlay ];
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-4.base
                 raspberry-pi-4.display-vc4
@@ -113,7 +133,7 @@
 
           modules = [
             {
-              nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.overlays = [ klipperOverlay cameraOverlay ];
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-5.base
                 raspberry-pi-5.page-size-16k
@@ -130,7 +150,7 @@
 
           modules = [
             {
-              nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.overlays = [ klipperOverlay cameraOverlay ];
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-4.base
                 raspberry-pi-4.display-vc4
@@ -147,7 +167,7 @@
 
           modules = [
             {
-              nixpkgs.overlays = [ klipperOverlay ];
+              nixpkgs.overlays = [ klipperOverlay cameraOverlay ];
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-5.base
                 raspberry-pi-5.page-size-16k
